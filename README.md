@@ -9,7 +9,6 @@ $ curl -X POST http://kong:8001/apis/{api}/plugins \
     --data "name=kong-oidc-auth" \
     --data "config.authorize_url=https://oauth.something.net/openid-connect/authorize" \
     --data "config.scope=openid+profile+email" \
-    --data "config.pfidpadapterid=CompanyIdOIDCStage" \
     --data "config.token_url=https://oauth.something.net/openid-connect/token" \
     --data "config.client_id=SOME_CLEINT_ID" \
     --data "config.client_secret=SOME_SECRET_KEY" \
@@ -22,13 +21,12 @@ $ curl -X POST http://kong:8001/apis/{api}/plugins \
     --data "config.cookie_domain=.company.com" \
     --data "config.user_info_cache_enabled=false"
 ```
-
+e
 | Form Parameter | default | description |
 | --- 						| --- | --- |
 | `name` 					        | | plugin name `kong-oidc-auth` |
 | `config.authorize_url` 	| | authorization url of the OAUTH provider (the one to which you will be redirected when not authenticated) |
 | `config.scope` 			    | | OAUTH scope of the authorization request |
-| `config.pfidpadapterid` <br /> <small>Optional</small> 	    | | OAUTH PingFederate Adaptor ID of the authorization request ex: CompanyIdOIDCStage, essentially points to the idp environment, ping federate specific only |
 | `config.token_url` 		  | | url of the Oauth provider to request the access token |
 | `config.client_id` 		  | | OAUTH Client Id |
 | `config.client_secret` 	| | OAUTH Client Secret |
@@ -43,10 +41,6 @@ $ curl -X POST http://kong:8001/apis/{api}/plugins \
 | `config.user_info_cache_enabled` 		  | | This enables storing the userInfo in Kong local cache which enables sending the entire requested user information to the backend service upon every request, otherwise user info only comes back occasionally and backend api service providers are required to validate the EOAuth Cookie Session with cached user information within their logic |
 
 In addition to the `user_keys` will be added a `X-OAUTH-TOKEN` header with the access token of the provider.
-
-NOTES:
-Ping Federate requires you to authorize a callback URL, all proxies have a standard call back route of:
-https://api-gateway.company.com/your/proxy/path/oauth2/callback
 
 ## Supported Kong Releases
 Kong >= 1.0
